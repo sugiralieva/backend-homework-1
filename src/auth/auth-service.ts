@@ -84,6 +84,20 @@ class AuthService {
 
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   }
+
+  async getUserCityFromToken(token: string): Promise<IUser | null> {
+    const payload = this.verifyJwt(token);
+    if (!payload) return null;
+
+    const user = await UserModel.findById(payload.id);
+    if (!user) return null;
+
+    return user;
+  }
+
+  async getUserInfoFromToken(token: string) {
+
+  }
 }
 
 export default AuthService;

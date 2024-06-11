@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import { CreateEventDto } from './dtos/CreateEvent.dot';
 import EventService from './event-service';
+import AuthService from './../auth/auth-service'
 
 class EventController {
     private eventService : EventService;
+    private authService: AuthService;
 
 
-    constructor(eventService : EventService){
+    constructor(eventService : EventService, authService: AuthService){
         this.eventService = eventService;
+        this.authService = authService;
     }
 
 
@@ -48,6 +51,30 @@ class EventController {
           res.status(500).send({ error: error.message });
         }
       }
+
+
+
+    getEventsByCity = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const token = req.headers.authorization?.split(' ')[1];
+            if (!token) {
+                res.status(401).json({ message: 'No token provided' });
+                return;
+            }
+
+            const user = await this.authService.getUserCityFromToken(token);
+            if (!user) {
+                res.status(404).json({ message: 'User not found' });
+                return;
+            }
+
+            const city = user.city;
+            const events = await this.eventService.getEventsByCity(city);
+            res.status(200).json(events);
+        } catch (err) {
+            res.status(500).json({ message: 'Error retrieving events by city' });
+        }
+    }
 }
 
 export default EventController;

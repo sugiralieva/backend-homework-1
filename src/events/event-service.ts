@@ -12,6 +12,10 @@ class EventService {
       return await EventModel.findById(id).exec();
     }
 
+    async getEventsByCity(city: string): Promise<IEvent[]> {
+        return EventModel.find({location: city}).exec();
+    }
+
     async getEvents(): Promise<IEvent[]> {
       return await EventModel.find().exec(); 
     }

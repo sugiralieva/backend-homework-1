@@ -10,6 +10,7 @@ globalRouter.use(authRouter);
 globalRouter.use(eventRouter);
 
 
+
 // other routers can be added here
 
 export default globalRouter;
