@@ -10,6 +10,7 @@ class EventController {
         this.eventService = eventService;
     }
 
+
     createEvent = async (req: Request, res: Response): Promise<void> => {
         try {
           const createEventDto: CreateEventDto = req.body;

@@ -10,6 +10,8 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String},
   password: { type: String, required: true },
+  city: { type: String },
 });
+
 
 export default mongoose.model<IUser>('User', UserSchema);
