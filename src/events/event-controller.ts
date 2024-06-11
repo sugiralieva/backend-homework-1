@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import { CreateEventDto } from './dtos/CreateEvent.dot';
 import EventService from './event-service';
 import AuthService from './../auth/auth-service'
@@ -14,7 +14,7 @@ class EventController {
     }
 
 
-    createEvent = async (req: Request, res: Response): Promise<void> => {
+    createEvent = async (req: Request, res: Response,  next: NextFunction): Promise<void> => {
         try {
           const createEventDto: CreateEventDto = req.body;
           const event = await this.eventService.createEvent(createEventDto);
@@ -26,7 +26,7 @@ class EventController {
 
 
 
-    getEvents = async (req: Request, res: Response): Promise<void> => {
+    getEvents = async (req: Request, res: Response,  next: NextFunction): Promise<void> => {
         try {
           const events = await this.eventService.getEvents();
           res.status(200).json(events);
@@ -38,7 +38,7 @@ class EventController {
     
 
 
-    getEventById = async (req: Request, res: Response): Promise<void> => {
+    getEventById = async (req: Request, res: Response,  next: NextFunction): Promise<void> => {
         try {
           const { id } = req.params;
           const event = await this.eventService.getEventById(id);
@@ -54,7 +54,7 @@ class EventController {
 
 
 
-    getEventsByCity = async (req: Request, res: Response): Promise<void> => {
+    getEventsByCity = async (req: Request, res: Response,  next: NextFunction): Promise<void> => {
         try {
             const token = req.headers.authorization?.split(' ')[1];
             if (!token) {
